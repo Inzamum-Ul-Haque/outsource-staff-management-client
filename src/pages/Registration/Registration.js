@@ -9,9 +9,10 @@ import {
   Modal,
   Row,
 } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import NavigationBar from "../../components/Navbar/NavigationBar";
+import SideMenu from "../../components/SideMenu/SideMenu";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -447,23 +448,7 @@ const Registration = () => {
             </Form>
           </Col>
           <Col>
-            <div className="bg-light side-menu p-4 mt-2">
-              <Button className="btn btn-secondary mb-2">
-                Family Information
-              </Button>
-              <Button className="btn btn-secondary mb-2">
-                Children Information
-              </Button>
-              <Button className="btn btn-secondary mb-2">Education</Button>
-              <Button className="btn btn-secondary mb-2">
-                Posting Info at DBBL*
-              </Button>
-              <Button className="btn btn-secondary mb-2">Job Status</Button>
-              <Button className="btn btn-secondary mb-2">PF Input</Button>
-              <Button className="btn btn-secondary mb-2">Gratuity Input</Button>
-              <Button className="btn btn-secondary mb-2">Check Unverify</Button>
-              <Button className="btn btn-secondary mb-2">Logout</Button>
-            </div>
+            <SideMenu />
           </Col>
         </Row>
       </Container>
