@@ -5,6 +5,7 @@ import dbblImg from "../../assets/images/Dutch-Bangla Bank Limited.jpg";
 import { FaUserCircle } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,9 +22,7 @@ const Login = () => {
       password,
     };
 
-    console.log(userCredentials);
-
-    fetch("http://192.168.91.225:8080/login", {
+    fetch(`${process.env.REACT_api_URL}/login`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -32,10 +31,17 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        navigate("/");
+        if (data) {
+          console.log(data);
+          navigate("/dashboard");
+        } else {
+          toast.error("An error occurred!");
+        }
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        toast.error("An error occurred! Please try again!");
+      });
   };
 
   return (

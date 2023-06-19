@@ -6,20 +6,14 @@ import {
   Container,
   FloatingLabel,
   Form,
-  Modal,
   Row,
 } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import NavigationBar from "../../components/Navbar/NavigationBar";
-import SideMenu from "../../components/SideMenu/SideMenu";
 
 const Registration = () => {
   const navigate = useNavigate();
-  // const [showConfirmModal, setShowConfirmModal] = useState(false);
-
-  // const handleCloseModal = () => setShowConfirmModal(false);
-  // const handleShowModal = () => setShowConfirmModal(true);
 
   const handleUserRegistration = (event) => {
     event.preventDefault();
@@ -40,7 +34,7 @@ const Registration = () => {
 
     console.log(userInformation);
 
-    fetch("http://192.168.194.225:8080/users", {
+    fetch(`${process.env.REACT_api_URL}/users`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -64,7 +58,7 @@ const Registration = () => {
       {/* User Registration form */}
       <Container className="mb-3">
         <Row>
-          <Col xs={9}>
+          <Col>
             <h1 className="mt-2">Add User</h1>
             <h3>Key Information</h3>
             <hr />
@@ -446,9 +440,6 @@ const Registration = () => {
                 Add User
               </Button>
             </Form>
-          </Col>
-          <Col>
-            <SideMenu />
           </Col>
         </Row>
       </Container>

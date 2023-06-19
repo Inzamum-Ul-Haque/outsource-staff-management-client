@@ -7,11 +7,11 @@ import FamilyInfo from "../pages/FamilyInfo/FamilyInfo";
 
 const routes = createBrowserRouter([
   {
-    path: "/login",
+    path: "/",
     element: <Login />,
   },
   {
-    path: "/",
+    path: "/dashboard",
     element: <Dashboard />,
   },
   {
