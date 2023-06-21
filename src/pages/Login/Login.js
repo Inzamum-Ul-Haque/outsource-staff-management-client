@@ -17,19 +17,32 @@ const Login = () => {
     const userId = form.id.value;
     const password = form.password.value;
 
+    // form checking
+    if (!userId && !password) {
+      toast.error("Fields can't be empty!");
+      return;
+    } else if (!userId || !password) {
+      toast.error("User id or password can't be empty!");
+      return;
+    }
+
     const userCredentials = {
       userId,
       password,
     };
 
-    fetch(`${process.env.REACT_api_URL}/login`, {
+    fetch(`http://192.168.194.225:8080/login`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify(userCredentials),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        if (!res.ok) throw new Error(res.status);
+        else return res.json();
+      })
       .then((data) => {
         if (data) {
           console.log(data);

@@ -1,22 +1,15 @@
 import React, { useContext, useState } from "react";
-import {
-  Button,
-  Container,
-  Nav,
-  NavDropdown,
-  Navbar,
-  Offcanvas,
-} from "react-bootstrap";
+import { Button, Container, Nav, Navbar, Offcanvas } from "react-bootstrap";
 import { AiOutlineMenu } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import "./NavigationBar.css";
-import { RoleContext } from "../../context/RoleBasedInfo";
+import { RoleContext } from "../../context/RoleProvider";
 
 const NavigationBar = () => {
   const navigate = useNavigate();
   const { roles } = useContext(RoleContext);
   const [show, setShow] = useState(false);
-  const role = "Guest";
+  const role = "Admin";
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -45,9 +38,9 @@ const NavigationBar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto nav-menu">
-              {role === "Guest" && (
+              {role === "Admin" && (
                 <>
-                  {roles.role3.roleMenus.map((menu, idx) => (
+                  {roles.role1.roleMenus.map((menu, idx) => (
                     <Link key={idx} to="/user-registration">
                       {menu}
                     </Link>

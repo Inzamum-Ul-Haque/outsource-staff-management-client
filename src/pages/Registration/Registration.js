@@ -14,6 +14,32 @@ import NavigationBar from "../../components/Navbar/NavigationBar";
 
 const Registration = () => {
   const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState("");
+  const [data, setData] = useState("");
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleEnter = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+
+      const userId = event.target.value;
+      // setData("Inzamum Ul Haque");
+      // call the api from the backend here to display the data in the input field
+
+      fetch(`http://192.168.194.225:8080/u/${userId}`)
+        .then((res) => {
+          console.log(res);
+          if (!res.ok) throw new Error(res.status);
+          else return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+        });
+    }
+  };
 
   const handleUserRegistration = (event) => {
     event.preventDefault();
@@ -22,13 +48,23 @@ const Registration = () => {
     const firstName = form.firstName.value;
     const middleName = form.middleName.value;
     const lastName = form.lastName.value;
+    const role = form.role.value;
     const email = form.email.value;
+
+    // checking email regex
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const isValidEmail = emailRegex.test(email);
+    if (!isValidEmail) {
+      toast.error("Please input a valid email!");
+      return;
+    }
 
     const userInformation = {
       userId,
       firstName,
       middleName,
       lastName,
+      role,
       email,
     };
 
@@ -51,6 +87,32 @@ const Registration = () => {
       .catch((error) => console.error(error));
   };
 
+  // testing purpose
+  const role = "Admin";
+  let buttons;
+  if (role === "Admin") {
+    buttons = (
+      <>
+        <Button variant="success" type="submit">
+          Add User
+        </Button>
+        <Button variant="info" type="submit">
+          Update
+        </Button>
+      </>
+    );
+  } else if (role === "User") {
+    buttons = (
+      <>
+        <Button variant="info" type="submit">
+          Update
+        </Button>
+      </>
+    );
+  } else {
+    buttons = <></>;
+  }
+
   return (
     <div>
       <NavigationBar />
@@ -59,7 +121,7 @@ const Registration = () => {
       <Container className="mb-3">
         <Row>
           <Col>
-            <h1 className="mt-2">Add User</h1>
+            <h1 className="mt-2">User Registration</h1>
             <h3>Key Information</h3>
             <hr />
             <Form onSubmit={handleUserRegistration}>
@@ -70,7 +132,13 @@ const Registration = () => {
                     controlId="exampleForm.ControlInput1"
                   >
                     <Form.Label>Id*</Form.Label>
-                    <Form.Control type="text" name="userId" />
+                    <Form.Control
+                      type="text"
+                      name="userId"
+                      value={inputValue}
+                      onChange={handleChange}
+                      onKeyPress={handleEnter}
+                    />
                   </Form.Group>
                 </Col>
                 <Col xs={9}>
@@ -79,7 +147,12 @@ const Registration = () => {
                     controlId="exampleForm.ControlInput1"
                   >
                     <Form.Label>Full Name</Form.Label>
-                    <Form.Control type="text" name="fullName" />
+                    <Form.Control
+                      type="text"
+                      name="fullName"
+                      value={data}
+                      onChange={(e) => setData(e.target.value)}
+                    />
                   </Form.Group>
                 </Col>
               </Row>
@@ -90,7 +163,7 @@ const Registration = () => {
                     controlId="exampleForm.ControlInput2"
                   >
                     <Form.Label>First Name</Form.Label>
-                    <Form.Control type="text" name="firstName" />
+                    <Form.Control type="text" name="firstName" required />
                   </Form.Group>
                 </Col>
                 <Col>
@@ -99,7 +172,7 @@ const Registration = () => {
                     controlId="exampleForm.ControlInput3"
                   >
                     <Form.Label>Middle Name</Form.Label>
-                    <Form.Control type="text" name="middleName" />
+                    <Form.Control type="text" name="middleName" required />
                   </Form.Group>
                 </Col>
                 <Col>
@@ -108,7 +181,7 @@ const Registration = () => {
                     controlId="exampleForm.ControlInput4"
                   >
                     <Form.Label>Last Name</Form.Label>
-                    <Form.Control type="text" name="lastName" />
+                    <Form.Control type="text" name="lastName" required />
                   </Form.Group>
                 </Col>
                 <Col>
@@ -169,6 +242,23 @@ const Registration = () => {
                   >
                     <Form.Label>Nationality</Form.Label>
                     <Form.Control type="text" name="nationality" />
+                  </Form.Group>
+                </Col>
+                <Col xs={4}>
+                  <Form.Group
+                    className="mb-3"
+                    controlId="exampleForm.ControlInput5"
+                  >
+                    <Form.Label>Role</Form.Label>
+                    <Form.Select
+                      name="role"
+                      aria-label="Default select example"
+                    >
+                      <option>Select role</option>
+                      <option value="1">Admin</option>
+                      <option value="2">User</option>
+                      <option value="3">Guest</option>
+                    </Form.Select>
                   </Form.Group>
                 </Col>
               </Row>
@@ -305,7 +395,7 @@ const Registration = () => {
                     controlId="exampleForm.ControlInput5"
                   >
                     <Form.Label>E-mail</Form.Label>
-                    <Form.Control type="email" name="email" />
+                    <Form.Control type="email" name="email" required />
                   </Form.Group>
                 </Col>
               </Row>
@@ -436,27 +526,12 @@ const Registration = () => {
               </Row>
 
               {/* onClick={handleShowModal} on this button*/}
-              <Button variant="success" type="submit">
-                Add User
-              </Button>
+              <div className="action-buttons">{buttons}</div>
             </Form>
           </Col>
         </Row>
       </Container>
       {/* User Registration form */}
-
-      {/* <Modal show={showConfirmModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton></Modal.Header>
-        <Modal.Body>Are you sure want to add this user?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="danger" onClick={handleCloseModal}>
-            Close
-          </Button>
-          <Button variant="success" onClick={handleCloseModal}>
-            Add
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
     </div>
   );
 };
