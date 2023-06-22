@@ -7,13 +7,14 @@ import { RoleContext } from "../../context/RoleProvider";
 
 const NavigationBar = () => {
   const navigate = useNavigate();
-  const { roles } = useContext(RoleContext);
+  const { roles, setUser } = useContext(RoleContext);
   const [show, setShow] = useState(false);
   const role = "Admin";
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleLogin = () => {
+  const handleLogout = () => {
+    setUser(null);
     navigate("/");
   };
 
@@ -47,16 +48,8 @@ const NavigationBar = () => {
                   ))}
                 </>
               )}
-              {/* <NavDropdown title="Actions" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">
-                  <Link to="/dashboard">Change Password</Link>
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  <Link to="/dashboard">Reset Password</Link>
-                </NavDropdown.Item>
-              </NavDropdown> */}
             </Nav>
-            <Button onClick={handleLogin} variant="danger">
+            <Button onClick={handleLogout} variant="danger">
               Logout
             </Button>
           </Navbar.Collapse>

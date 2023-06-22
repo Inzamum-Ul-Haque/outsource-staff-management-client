@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Login.css";
 import { Button, Container, Form, Image, InputGroup } from "react-bootstrap";
 import dbblImg from "../../assets/images/Dutch-Bangla Bank Limited.jpg";
@@ -6,9 +6,11 @@ import { FaUserCircle } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { RoleContext } from "../../context/RoleProvider";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setUser } = useContext(RoleContext);
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -46,6 +48,7 @@ const Login = () => {
       .then((data) => {
         if (data) {
           console.log(data);
+          setUser(data);
           navigate("/dashboard");
         } else {
           toast.error("An error occurred!");

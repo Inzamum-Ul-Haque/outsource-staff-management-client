@@ -1,8 +1,11 @@
-import React, { createContext } from "react";
+import React, { createContext, useState } from "react";
 
 export const RoleContext = createContext();
 
 const RoleBasedInfo = ({ children }) => {
+  const [user, setUser] = useState(null);
+
+  // test role based menu for users
   const roles = {
     role1: {
       roleId: 101,
@@ -20,6 +23,8 @@ const RoleBasedInfo = ({ children }) => {
 
   const roleInfo = {
     roles,
+    user,
+    setUser,
   };
 
   return (

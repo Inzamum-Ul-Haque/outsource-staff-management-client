@@ -4,7 +4,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import Registration from "../pages/Registration/Registration";
 import FamilyInfo from "../pages/FamilyInfo/FamilyInfo";
 import Error from "../pages/Error/Error";
-// import MainLayout from "../layout/MainLayout";
+import PrivateRoute from "./PrivateRoute";
 
 const routes = createBrowserRouter([
   {
@@ -13,15 +13,27 @@ const routes = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
   },
   {
     path: "/user-registration",
-    element: <Registration />,
+    element: (
+      <PrivateRoute>
+        <Registration />
+      </PrivateRoute>
+    ),
   },
   {
     path: "/family-info",
-    element: <FamilyInfo />,
+    element: (
+      <PrivateRoute>
+        <FamilyInfo />
+      </PrivateRoute>
+    ),
   },
   {
     path: "*",
